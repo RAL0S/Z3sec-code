@@ -61,7 +61,7 @@ source_dir=`pwd`
 dependencies="$source_dir"/dependencies
 # creating working directory:
 mkdir "$dependencies"
-cd "$dependencies"
+# cd "$dependencies"
 
 echo ">>> Creating global gnuradio config"
 sudo cp "$source_dir"/patch/grc.conf /etc/gnuradio/conf.d/grc.conf
@@ -74,10 +74,9 @@ sudo cp "$source_dir"/patch/grc.conf /etc/gnuradio/conf.d/grc.conf
 cd "$dependencies"
 
 echo ">>> Installing scapy-radio"
-hg clone https://bitbucket.org/cybertools/scapy-radio
+git clone https://github.com/yrz/scapy-radio/tree/jmichel/fix-wireshark-plugin-build-1448582294125
 cd scapy-radio
-# checkout version with old scapy:
-hg up -C 14:980029ae0bbb
+
 ./install.sh
 # patch scapy dot15d4/zigbee:
 sudo cp "$source_dir"/patch/dot15d4.py /usr/local/lib/python2.7/dist-packages/scapy/layers/dot15d4.py
@@ -85,7 +84,7 @@ sudo cp "$source_dir"/patch/dot15d4.py /usr/local/lib/python2.7/dist-packages/sc
 cd "$dependencies"
 
 echo ">>> Installing KillerBee"
-git clone https://github.com/riverloopsec/killerbee.git
+git clone https://github.com/riverloopsec/killerbee/tree/release/2.7
 cd killerbee
 # patch scapy_extensions.py and GoodFET.py before installing
 cp "$source_dir"/patch/scapy_extensions.py killerbee/scapy_extensions.py
@@ -95,7 +94,7 @@ sudo python setup.py install
 cd "$dependencies"
 
 echo ">>> Installing gr-foo"
-git clone -b master https://github.com/bastibl/gr-foo.git
+git clone -b maint-3.7 https://github.com/bastibl/gr-foo.git
 cd gr-foo
 mkdir build && cd build/
 cmake .. && make
@@ -105,7 +104,7 @@ sudo ldconfig
 cd "$dependencies"
 
 echo ">>> Installing gr-ieee802.15.4"
-git clone git://github.com/bastibl/gr-ieee802-15-4.git
+git clone -b maint-3.7 https://github.com/bastibl/gr-ieee802-15-4.git
 cd gr-ieee802-15-4
 mkdir build && cd build/
 cmake .. && make
